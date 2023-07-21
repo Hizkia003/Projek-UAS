@@ -12,10 +12,11 @@ if (isset($_POST['bsimpan'])) {
     $alamat = htmlspecialchars($_POST['alamat'], ENT_QUOTES);
     $tujuan = htmlspecialchars($_POST['tujuan'], ENT_QUOTES);
     $nope = htmlspecialchars($_POST['nope'], ENT_QUOTES);
+    $fotopengunjung = htmlspecialchars($_POST['fotopengunjung'], ENT_QUOTES);
 
     //Persiapan query simpan data
     $simpan = mysqli_query($koneksi, "INSERT INTO tb_tamu VALUES ('','$tgl', 
-        '$nama', '$alamat', '$tujuan', '$nope')");                          
+        '$nama', '$alamat', '$tujuan', '$nope', '$fotopengunjung')");
 
     // Uji ketika simpan data sukses
     if ($simpan) {
@@ -63,6 +64,11 @@ if (isset($_POST['bsimpan'])) {
                     <div class="form-group">
                         <input type="text" class="form-control form-control-user" name="nope"
                             placeholder="No.HP Pengunjung" required>
+                    </div>
+                    <div class="form-group">
+                    <label for="file">Upload Foto</label>
+                        <input type="file" class="btn btn-secondary btn-user btn-block" name="  fotopengunjung"
+                            placeholder="Foto Pengunjung" required>
                     </div>
 
                     <button type="submit" name="bsimpan" class="btn btn-primary btn-user btn-block">Simpan Data</button>
@@ -209,18 +215,9 @@ if (isset($_POST['bsimpan'])) {
                         <th>Alamat</th>
                         <th>Tujuan</th>
                         <th>No. HP</th>
+                        <th>Foto</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>No.</th>
-                        <th>Tanggal</th>
-                        <th>Nama Pengunjung</th>
-                        <th>Alamat</th>
-                        <th>Tujuan</th>
-                        <th>No. HP</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     <?php
                     $tgl = date('Y-m-d'); //2023-06-27
@@ -247,12 +244,16 @@ if (isset($_POST['bsimpan'])) {
                             <td>
                                 <?= $data['nope'] ?>
                             </td>
+                            <td>
+                                <?= $data['fotopengunjung'] ?>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
+</div>
 </div>
 <br>
 

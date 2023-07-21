@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Halaman Login | Sistem Informasi Buku Tamu Ngodingpintar</title>
+    <title>Halaman Login | Sistem Informasi Buku Tamu</title>
 
     <!-- Buat Favicon  -->
     <link rel="icon" href="assets/img/Logo_Unmer_resmi.png" type="image/x-icon">

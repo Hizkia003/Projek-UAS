@@ -1,6 +1,7 @@
 <?php
 // buat session start
 session_start();
+include "koneksi.php";
 
 // Uji jika session telah di set atau tidak
 if (
@@ -25,7 +26,7 @@ if (
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Sistem informasi Buku Tamu | Ngodingpintar</title>
+    <title>Sistem informasi Buku Tamu</title>
 
     <!-- Buat Favicon  -->
     <link rel="icon" href="assets/img/Logo_Unmer_resmi.png" type="image/x-icon">
@@ -41,6 +42,35 @@ if (
 
     <!-- Custom styles for this page -->
     <link href="assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        /* Ubah warna tulisan input dan placeholder */
+        .form-control-user {
+            color: rgb(0, 0, 0) !important;
+            /* Warna tulisan putih */
+            background-color: #d1d1d1 !important;
+            /* Latar gelap untuk kontras */
+        }
+
+        /* Ubah warna placeholder */
+        .form-control-user::placeholder {
+            color: #495057 !important;
+            /* Warna placeholder abu-abu muda */
+            opacity: 1;
+            /* Pastikan placeholder tidak transparan */
+        }
+
+        .img-thumbnail {
+            transition: transform .2s;
+            cursor: zoom-in;
+        }
+
+        .img-thumbnail:hover {
+            transform: scale(2);
+            z-index: 9999;
+            position: relative;
+        }
+    </style>
 
 </head>
 

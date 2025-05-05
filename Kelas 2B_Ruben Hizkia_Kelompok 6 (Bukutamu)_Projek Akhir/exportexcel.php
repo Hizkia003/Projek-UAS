@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header('location: index.php');
+}
 include "koneksi.php";
 
 // Persiapan untuk excel

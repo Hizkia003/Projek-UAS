@@ -12,19 +12,49 @@ if (isset($_POST['bsimpan'])) {
     $alamat = htmlspecialchars($_POST['alamat'], ENT_QUOTES);
     $tujuan = htmlspecialchars($_POST['tujuan'], ENT_QUOTES);
     $nope = htmlspecialchars($_POST['nope'], ENT_QUOTES);
-    $fotopengunjung = htmlspecialchars($_POST['fotopengunjung'], ENT_QUOTES);
 
-    //Persiapan query simpan data
-    $simpan = mysqli_query($koneksi, "INSERT INTO tb_tamu VALUES ('','$tgl', 
-        '$nama', '$alamat', '$tujuan', '$nope', '$fotopengunjung')");
+    // Proses upload file
+    $upload_dir = "uploads/";
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true); // Buat folder jika belum ada
+    }
 
-    // Uji ketika simpan data sukses
-    if ($simpan) {
-        echo "<script>alert('Simpan data sukses, Terima Kasih..!');
-            document.location='?'</script>";
+    $fotopengunjung = $_FILES['fotopengunjung']['name'];
+    $tmp_file = $_FILES['fotopengunjung']['tmp_name'];
+    $target_file = $upload_dir . basename($fotopengunjung);
+
+    // Validasi ekstensi file
+    $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
+    $file_ext = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    if (in_array($file_ext, $allowed_ext)) {
+        if (move_uploaded_file($tmp_file, $target_file)) {
+            // Simpan data ke database setelah file berhasil diunggah
+            $simpan = mysqli_query(
+                $koneksi,
+                "INSERT INTO tb_tamu VALUES (
+                    '', 
+                    '$tgl', 
+                    '$nama', 
+                    '$alamat', 
+                    '$tujuan', 
+                    '$nope', 
+                    '$fotopengunjung'
+                )"
+            );
+
+            if ($simpan) {
+                echo "<script>alert('Data tersimpan!'); document.location='admin.php';</script>";
+                exit;
+            } else {
+                echo "<script>alert('Gagal menyimpan data ke database!');</script>";
+                die("Error DB: " . mysqli_error($koneksi));
+            }
+        } else {
+            echo "<script>alert('Gagal upload file foto!');</script>";
+        }
     } else {
-        echo "<script>alert('Simpan Data GAGAL!!!');
-            document.location='?'</script>";
+        echo "<script>alert('Hanya file gambar (jpg/jpeg/png/gif) yang diizinkan!');</script>";
     }
 }
 
@@ -48,7 +78,7 @@ if (isset($_POST['bsimpan'])) {
                 <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Identitas Pengunjung</h1>
                 </div>
-                <form class="user" method="POST" action="">
+                <form class="user" method="POST" action="" enctype="multipart/form-data">
                     <div class="form-group">
                         <input type="text" class="form-control form-control-user" name="nama"
                             placeholder="Nama Pengunjung" required>
@@ -66,9 +96,9 @@ if (isset($_POST['bsimpan'])) {
                             placeholder="No.HP Pengunjung" required>
                     </div>
                     <div class="form-group">
-                    <label for="file">Upload Foto</label>
-                        <input type="file" class="btn btn-secondary btn-user btn-block" name="  fotopengunjung"
-                            placeholder="Foto Pengunjung" required>
+                        <label for="file">Upload Foto</label>
+                        <input type="file" class="btn btn-secondary btn-user btn-block" name="fotopengunjung" required
+                            accept="image/*">
                     </div>
 
                     <button type="submit" name="bsimpan" class="btn btn-primary btn-user btn-block">Simpan Data</button>
@@ -245,7 +275,15 @@ if (isset($_POST['bsimpan'])) {
                                 <?= $data['nope'] ?>
                             </td>
                             <td>
-                                <?= $data['fotopengunjung'] ?>
+                                <?php
+                                if (!empty($data['fotopengunjung'])) {
+                                    echo '<img src="uploads/' . $data['fotopengunjung'] . '"
+                                    style="width: 100px; height: auto; 
+                                    border-radius: 5px;"class="img-thumbnail">';
+                                } else {
+                                    echo 'Tidak ada foto';
+                                }
+                                ?>
                             </td>
                         </tr>
                     <?php } ?>

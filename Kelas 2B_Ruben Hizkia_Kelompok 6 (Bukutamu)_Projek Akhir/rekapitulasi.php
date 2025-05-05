@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>Dari Tanggal</label>
+                                <label>Sampai Tanggal</label>
                                 <input class="form-control" type="date" name="tanggal2" value="<?= isset($_POST['tanggal2']) ?
                                     $_POST['tanggal2'] : date('Y-m-d') ?>" required>
 

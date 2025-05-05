@@ -30,4 +30,7 @@ if ($data) {
     alert('Maaf, Login Gagal, Pastikan Username dan Password anda Benar...!');
     document.location='index.php';</script>";
 }
+
+// Gunakan $pass (md5) dalam query
+$login = mysqli_query($koneksi, "SELECT * FROM tb_user WHERE username = '$username' AND password = '$pass' AND status = 'Aktif'");
 ?>
